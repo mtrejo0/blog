@@ -131,7 +131,7 @@ const App = () => {
       setFormattedText(
         <>
           {before}
-          <strong>{boldText}</strong>
+          <mark>{boldText}</mark>
           {after}
         </>,
       );
@@ -184,15 +184,19 @@ const App = () => {
 
         <p>Tags: {post.tags.join(", ")}</p>
         <p>Made by: {post.user_id}</p>
-        <p>like count: {likeCount}</p>
+        <form>
+          {hasLiked ? (
+            <button onClick={() => removeLikeFromPost(post.post_id)}>
+              Unlike
+            </button>
+          ) : (
+            <button onClick={() => addLikeToPost(post.post_id)}>Like</button>
+          )}
+          <label> - {likeCount} likes</label>
 
-        {hasLiked ? (
-          <button onClick={() => removeLikeFromPost(post.post_id)}>
-            Unlike
-          </button>
-        ) : (
-          <button onClick={() => addLikeToPost(post.post_id)}>Like</button>
-        )}
+        </form>
+        
+        <br></br>
 
         <AddBlogComment
           post_id={post.post_id}
@@ -242,17 +246,19 @@ const App = () => {
       >
         <p>{comment.text}</p>
         {replyTo && <p>Replying to: {replyTo}</p>}
-        <p>like count: {likeCount}</p>
 
-        {hasLiked ? (
-          <button onClick={() => removeLikeFromComment(comment.comment_id)}>
-            Unlike
-          </button>
-        ) : (
-          <button onClick={() => addLikeToComment(comment.comment_id)}>
-            Like Comment
-          </button>
-        )}
+        <form>
+          {hasLiked ? (
+            <button onClick={() => removeLikeFromComment(comment.comment_id)}>
+              Unlike
+            </button>
+          ) : (
+            <button onClick={() => addLikeToComment(comment.comment_id)}>
+              Like Comment
+            </button>
+          )}
+          <label> - {likeCount} likes</label>
+        </form>
       </div>
     );
   };
@@ -302,7 +308,8 @@ const App = () => {
           />
           <label> - Tags - comma separated</label>
         </div>
-        <button type="submit">Add Blog Post</button>
+        <br></br>
+        <button type="submit">Add Post</button>
       </form>
     );
   };
